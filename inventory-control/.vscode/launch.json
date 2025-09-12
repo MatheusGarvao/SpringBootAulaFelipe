@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-InventoryControlApplication<inventory-control>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.stock.inventory.InventoryControlApplication",
+            "projectName": "inventory-control",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
