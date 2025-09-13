@@ -1,4 +1,13 @@
-C:\projetos\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\InventoryControlApplication.java
-C:\projetos\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Category.java
-C:\projetos\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Product.java
-C:\projetos\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Supplier.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\controller\CategoryController.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\controller\ProductController.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\controller\SupplierController.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\InventoryControlApplication.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\CategoryRepository.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Category.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Product.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\entity\Supplier.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\ProductRepository.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\repository\SupplierRepository.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\service\CategoryService.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\service\ProductService.java
+C:\Users\Matheus\Documents\GitHub\SpringBootAulaFelipe\inventory-control\src\main\java\com\stock\inventory\service\SupplierService.java
