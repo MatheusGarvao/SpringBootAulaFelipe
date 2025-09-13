@@ -3,12 +3,18 @@ package com.stock.inventory.service;
 import com.stock.inventory.repository.CategoryRepository;
 import com.stock.inventory.repository.entity.Category;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.FeatureDescriptor;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class CategoryService {
@@ -31,13 +37,32 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Long id, Category categoryDetails) {
+    @Transactional
+    public Category updateCategory(Long id, Category patch) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
-        
-        category.setName(categoryDetails.getName());
-        category.setDescription(categoryDetails.getDescription());
-        
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + id));
+
+        if (patch.getName() != null) {
+            String newName = patch.getName();
+            String currentName = category.getName();
+            if (!newName.equals(currentName) && categoryRepository.existsByName(newName)) {
+                throw new RuntimeException("Category with name '" + newName + "' already exists");
+            }
+        }
+
+        final BeanWrapper src = new BeanWrapperImpl(patch);
+        String[] nullProps = Arrays.stream(src.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(name -> src.getPropertyValue(name) == null)
+                .toArray(String[]::new);
+
+        String[] ignore = Stream.concat(
+                Arrays.stream(nullProps),
+                Arrays.stream(new String[] { "id" })
+        ).toArray(String[]::new);
+
+        BeanUtils.copyProperties(patch, category, ignore);
+
         return categoryRepository.save(category);
     }
 
