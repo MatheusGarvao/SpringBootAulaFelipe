@@ -23,7 +23,7 @@ public class SupplierController {
         return ResponseEntity.ok(suppliers);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Supplier> getSupplierById(@PathVariable Long id) {
         Optional<Supplier> supplier = supplierService.getSupplierById(id);
         return supplier.map(ResponseEntity::ok)
@@ -66,10 +66,11 @@ public class SupplierController {
         return ResponseEntity.ok(suppliers);
     }
 
-    @GetMapping("/document/{document}")
-    public ResponseEntity<Supplier> getSupplierByDocument(@PathVariable String document) {
+    @GetMapping("/document")
+    public ResponseEntity<Supplier> getSupplierByDocument(@RequestParam String document) {
         Optional<Supplier> supplier = supplierService.getSupplierByDocument(document);
         return supplier.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
 }
