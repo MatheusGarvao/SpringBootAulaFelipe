@@ -4,6 +4,8 @@ import com.stock.inventory.repository.SupplierRepository;
 import com.stock.inventory.repository.entity.Supplier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +56,13 @@ public class SupplierService {
 
     public Optional<Supplier> getSupplierByDocument(String document) {
         return supplierRepository.findByIdentificationDocument(document);
+    }
+
+    @Transactional(readOnly = true)
+    public Supplier refOrNotFound(Long id) {
+        if (!supplierRepository.existsById(id)) {
+            throw new EntityNotFoundException("Fornecedor não encontrado com o ID: " + id);
+        }
+        return supplierRepository.getReferenceById(id);
     }
 }

@@ -2,8 +2,10 @@ package com.stock.inventory.service;
 
 import com.stock.inventory.repository.CategoryRepository;
 import com.stock.inventory.repository.entity.Category;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,5 +49,13 @@ public class CategoryService {
 
     public List<Category> searchCategoriesByName(String name) {
         return categoryRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @Transactional(readOnly = true)
+    public Category refOrNotFound(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new EntityNotFoundException("Categoria não encontrada com o ID: " + id);
+        }
+        return categoryRepository.getReferenceById(id);
     }
 }
