@@ -2,13 +2,19 @@ package com.stock.inventory.service;
 
 import com.stock.inventory.repository.SupplierRepository;
 import com.stock.inventory.repository.entity.Supplier;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import jakarta.persistence.EntityNotFoundException;
 
+import java.beans.FeatureDescriptor;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @Service
 public class SupplierService {
@@ -31,18 +37,35 @@ public class SupplierService {
         return supplierRepository.save(supplier);
     }
 
-    public Supplier updateSupplier(Long id, Supplier supplierDetails) {
+    @Transactional
+    public Supplier updateSupplier(Long id, Supplier patch) {
         Supplier supplier = supplierRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Supplier not found with id: " + id));
-        
-        supplier.setName(supplierDetails.getName());
-        supplier.setIdentificationDocument(supplierDetails.getIdentificationDocument());
-        supplier.setEmail(supplierDetails.getEmail());
-        supplier.setPhone(supplierDetails.getPhone());
-        supplier.setAddress(supplierDetails.getAddress());
-        
+                .orElseThrow(() -> new EntityNotFoundException("Fornecedor não encontrado com o ID: " + id));
+
+        if (patch.getIdentificationDocument() != null) {
+            String newDoc = patch.getIdentificationDocument();
+            String currentDoc = supplier.getIdentificationDocument();
+            if (!newDoc.equals(currentDoc) && supplierRepository.existsByIdentificationDocument(newDoc)) {
+                throw new RuntimeException("Supplier with document '" + newDoc + "' already exists");
+            }
+        }
+
+        final BeanWrapper src = new BeanWrapperImpl(patch);
+        String[] nullProps = Arrays.stream(src.getPropertyDescriptors())
+                .map(FeatureDescriptor::getName)
+                .filter(name -> src.getPropertyValue(name) == null)
+                .toArray(String[]::new);
+
+        String[] ignore = Stream.concat(
+                Arrays.stream(nullProps),
+                Arrays.stream(new String[] { "id" })
+        ).toArray(String[]::new);
+
+        BeanUtils.copyProperties(patch, supplier, ignore);
+
         return supplierRepository.save(supplier);
     }
+
 
     public void deleteSupplier(Long id) {
         Supplier supplier = supplierRepository.findById(id)
